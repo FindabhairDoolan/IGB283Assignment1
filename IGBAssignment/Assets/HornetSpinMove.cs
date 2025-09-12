@@ -2,61 +2,129 @@ using UnityEngine;
 
 public class HornetSpinMove : MonoBehaviour
 {
-    //so it can be edited easy later
-    [SerializeField] Vector3 pointA = new Vector3(-2, 0, 0);
-    [SerializeField] Vector3 pointB = new Vector3(2, 0, 0);
-    [SerializeField] float slideSpeed = 1.0f;
-    [SerializeField] float rotationSpeed = 90f;
+    //editable in Inspector
+    [UnityEngine.SerializeField] Vector3 pointA = new Vector3(-2, 0, 0);
+    [UnityEngine.SerializeField] Vector3 pointB = new Vector3(2, 0, 0);
+    [UnityEngine.SerializeField] float slideSpeed = 1.0f;
+    [UnityEngine.SerializeField] float rotationSpeed = 90f;
+
+    //handles
+    [UnityEngine.SerializeField] float handleSize = 0.35f;
+    [UnityEngine.SerializeField] Material handleMaterial;
 
     Mesh mesh;
     Vector3[] baseVertices;
-    bool firstTime = true;
+    bool initialised;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    enum Dragging { None, A, B }
+    Dragging dragging = Dragging.None;
+    float dragDepth;
+
+    //handle transformaiton
+    Transform handleAT, handleBT;
+
+    //handle to drago
+    void CreateHandle(ref Transform outTransform, string name, Vector3 position)
     {
-        
+        var go = GameObject.CreatePrimitive(PrimitiveType.Quad); //collider
+        go.name = name;
+        go.transform.SetParent(this.transform, false);
+        go.transform.position = position;
+        go.transform.localScale = Vector3.one * handleSize;
+        if (handleMaterial) go.GetComponent<MeshRenderer>().material = handleMaterial;
+        outTransform = go.transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //statement to prevent program from attempting to find mesh before mesh is created
-        if (firstTime == true)
+        //ensures this is done after mesh is made
+        if (!initialised)
         {
-            mesh = GetComponent<MeshFilter>().mesh;
-            baseVertices = mesh.vertices; //get original vertices
-            firstTime = false;
-        }
-        //i love ping pong
-        float t = Mathf.PingPong(Time.time * slideSpeed, 1f);
+            var mf = GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null) return;
+            mesh = mf.mesh;
+            if (mesh.vertexCount == 0) return;
 
-        //vector math :skull:
+            baseVertices = mesh.vertices;
+
+            //creates the handles
+            CreateHandle(ref handleAT, "HandleA", pointA);
+            CreateHandle(ref handleBT, "HandleB", pointB);
+
+            initialised = true;
+        }
+
+        //drag
+        var camera = Camera.main;
+        if (camera != null)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out var hit))
+                {
+                    if (hit.transform == handleAT) { dragging = Dragging.A; dragDepth = hit.distance; }
+                    else if (hit.transform == handleBT) { dragging = Dragging.B; dragDepth = hit.distance; }
+                }
+            }
+
+            if (Input.GetMouseButton(0) && dragging != Dragging.None)
+            {
+                var transform = dragging == Dragging.A ? handleAT : handleBT;
+                Vector3 world = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, dragDepth));
+                transform.position = new Vector3(transform.position.x, world.y, transform.position.z); // constrain to Y
+                if (dragging == Dragging.A) pointA = transform.position; else pointB = transform.position;
+            }
+
+            if (Input.GetMouseButtonUp(0)) dragging = Dragging.None;
+        }
+
+        //sync handles if using inspector
+        if (dragging == Dragging.None)
+        {
+            if (handleAT) handleAT.position = pointA;
+            if (handleBT) handleBT.position = pointB;
+        }
+
+        //PING PONG!
+        float transformParam = Mathf.PingPong(Time.time * slideSpeed, 1f);
+
         IGB283Vector A = new IGB283Vector(pointA);
         IGB283Vector B = new IGB283Vector(pointB);
         IGB283Vector P = new IGB283Vector(
-            A.x * (1f - t) + B.x * t,
-            A.y * (1f - t) + B.y * t,
-            A.z * (1f - t) + B.z * t
+            A.x * (1f - transformParam) + B.x * transformParam,
+            A.y * (1f - transformParam) + B.y * transformParam,
+            A.z * (1f - transformParam) + B.z * transformParam
         );
 
-        //Rotate
         float angle = rotationSpeed * Time.time;
 
-        //TR variable for translation times roation
-        IGB283Transform TR = IGB283Transform.Translation(P.x, P.y, P.z) * IGB283Transform.RotationZ(angle);
+        //transform*rotate
+        IGB283Transform TR =
+            IGB283Transform.Translation(P.x, P.y, P.z) *
+            IGB283Transform.RotationZ(angle);
 
-        //Applying the original vertices to make sure it dosent kill itself
         var vertices = new Vector3[baseVertices.Length];
         for (int i = 0; i < baseVertices.Length; i++)
-        {
-            IGB283Vector vector = new IGB283Vector(baseVertices[i]);
-            vertices[i] = TR.Apply(vector).ToUnityVector();
-        }
+            vertices[i] = TR.Apply(new IGB283Vector(baseVertices[i])).ToUnityVector();
 
         mesh.vertices = vertices;
         mesh.RecalculateBounds();
+    }
 
+    //Configure class for duplication
+    public void Configure(Vector3 a, Vector3 b, float slide, float rotation)
+    {
+        //new points
+        pointA = a;
+        pointB = b;
+        slideSpeed = slide;
+        rotationSpeed = rotation;
 
+        //moves clone handles to clone handle points
+        if (handleAT) handleAT.position = pointA;
+        if (handleBT) handleBT.position = pointB;
     }
 }
+
+
+
