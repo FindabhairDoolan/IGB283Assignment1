@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Hornet.cs" />
+    <Compile Include="Assets\Boundary.cs" />
     <Compile Include="Assets\IGB283Transform.cs" />
     <Compile Include="Assets\IGB283Vector.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
