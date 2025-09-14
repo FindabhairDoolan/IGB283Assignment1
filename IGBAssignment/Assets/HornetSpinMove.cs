@@ -10,6 +10,7 @@ public class HornetSpinMove : MonoBehaviour
     [SerializeField] public float moveSpeed = 3f;
     [SerializeField] public float rotateSpeed = 180f;
 
+    [SerializeField] private InputAction pKey;
     [SerializeField] private InputAction aKey;
     [SerializeField] private InputAction dKey; //Input keys
 
@@ -19,6 +20,8 @@ public class HornetSpinMove : MonoBehaviour
     private float angleZDeg;
 
     private Vector3[] originalVertices; //Original mesh vertices
+
+    private bool showingPseudoCrossProduct = false; // toggle state
 
 
     void Start()
@@ -59,7 +62,11 @@ public class HornetSpinMove : MonoBehaviour
         transform.position = position.ToUnityVector();
         transform.rotation = Quaternion.Euler(0f, 0f, angleZDeg);
 
-        changeColour();
+        if (showingPseudoCrossProduct)
+            applyPseudoCrossProduct();
+        else
+            changeColour();
+
         changeScale();
     }
 
@@ -79,19 +86,22 @@ public class HornetSpinMove : MonoBehaviour
     //Change hornet colour depending on x position
     private void changeColour()
     {
+        Color black = new Color(0.0f, 0.0f, 0.0f, 1f);
+        Color red = new Color(0.459f, 0.051f, 0.051f, 1f);
+
         Mesh mesh = GetComponent<MeshFilter>().mesh;
-        Color[] colors = new Color[mesh.vertexCount]; //List to put new vertex colours in
+        Color[] colours = new Color[mesh.vertexCount]; //List to put new vertex colours in
 
         float minX = KnobA.position.x;
         float maxX = KnobB.position.x; //Boundary x positions
 
-        for (int i = 0; i < colors.Length; i++) //For all vertices
+        for (int i = 0; i < colours.Length; i++) //For all vertices
         {
             float t = Mathf.InverseLerp(minX, maxX, transform.position.x);
-            colors[i] = Color.Lerp(Color.red, Color.black, t); //Set colour dependent on the position between boundaries
+            colours[i] = Color.Lerp(black, red, t); //Set colour dependent on the position between boundaries
         }
 
-        mesh.colors = colors; //Update vertex colours
+        mesh.colors = colours; //Update vertex colours
     }
 
     //Change hornet size depending on x position
@@ -139,10 +149,12 @@ public class HornetSpinMove : MonoBehaviour
         // Enable the inputs
         aKey.Enable();
         dKey.Enable();
+        pKey.Enable();
 
         // Trigger the hornet speed
         aKey.performed += decreaseSpeed;
         dKey.performed += increaseSpeed;
+        pKey.performed += showPseudoCrossProduct;
     }
 
     private void OnDisable()
@@ -150,10 +162,63 @@ public class HornetSpinMove : MonoBehaviour
         // Disable the inputs
         aKey.Disable();
         dKey.Disable();
+        pKey.Disable();
 
         //Stop triggering hornet speed
         aKey.performed -= decreaseSpeed;
         dKey.performed -= increaseSpeed;
+        pKey.performed -= showPseudoCrossProduct;
+    }
+
+    private void applyPseudoCrossProduct()
+    {
+        //Get mesh
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] vertices = mesh.vertices;
+        int[] triangles = mesh.triangles;
+        Color[] colours = new Color[vertices.Length];
+
+        //Get camera direction
+        Vector3 cameraDirection = Camera.main.transform.forward;
+
+        for (int i = 0; i < triangles.Length; i += 3) //For every triangle in mesh
+        {
+            //Get triangle vertices
+            Vector3 a = vertices[triangles[i]];
+            Vector3 b = vertices[triangles[i + 1]];
+            Vector3 c = vertices[triangles[i + 2]];
+
+            //Determine triangle edges
+            Vector3 s0 = b - a;
+            Vector3 s1 = c - a;
+
+            //Determine normal
+            Vector3 normal = Vector3.Cross(s1, s0);
+
+            //Rotate normal
+            Vector3 rotatedNormal = transform.rotation * normal;
+
+            //Dot the normal with the camera direction
+            float dotProduct = Vector3.Dot(rotatedNormal, cameraDirection);
+
+            //Positive dot product is front facing = green, back facing is red
+            Color faceColour = (dotProduct > 0f) ? Color.green : Color.red;
+
+            //Apply colour to the vertices of the triangle
+            colours[triangles[i]] = faceColour;
+            colours[triangles[i + 1]] = faceColour;
+            colours[triangles[i + 2]] = faceColour;
+        }
+
+        mesh.colors = colours; //Update colours
+    }
+
+
+
+
+    private void showPseudoCrossProduct(InputAction.CallbackContext context)
+    {
+        showingPseudoCrossProduct = !showingPseudoCrossProduct;
     }
 
     //cooked helper functions(will move them into vector when get chance)

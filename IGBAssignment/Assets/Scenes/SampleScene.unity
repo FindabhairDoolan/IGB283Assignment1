@@ -305,8 +305,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.111902155, g: 0.28930807, b: 0.111902155, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -843,6 +843,23 @@ MonoBehaviour:
   KnobB: {fileID: 933933948}
   moveSpeed: 3
   rotateSpeed: 180
+  pKey:
+    m_Name: P Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 1f8ada07-c0ee-44fb-a836-6bfa0bf11ea1
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: bdf8aade-a680-452b-bce5-a5bd42d1bf9f
+      m_Path: <Keyboard>/p
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: P Key
+      m_Flags: 0
+    m_Flags: 0
   aKey:
     m_Name: A Key
     m_Type: 0
