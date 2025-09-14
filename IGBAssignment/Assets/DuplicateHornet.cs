@@ -6,13 +6,15 @@ public class DuplicateHornet : MonoBehaviour
     [SerializeField] float cloneSlideSpeed = 2.0f;
     [SerializeField] float cloneRotationSpeed = 120f;
 
+    private GameObject clone;
+
     void Start()
     {
         //finds hornet
         HornetSpinMove original = FindObjectOfType<HornetSpinMove>();
 
         //clones the mesh
-        GameObject clone = Instantiate(
+        clone = Instantiate(
             original.gameObject,
             original.transform.position + cloneHornetOffset,
             original.transform.rotation,

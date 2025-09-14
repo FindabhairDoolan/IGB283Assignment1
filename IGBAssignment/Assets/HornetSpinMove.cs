@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public class HornetSpinMove : MonoBehaviour
@@ -9,12 +10,16 @@ public class HornetSpinMove : MonoBehaviour
     [SerializeField] public float moveSpeed = 3f;
     [SerializeField] public float rotateSpeed = 180f;
 
+    [SerializeField] private InputAction aKey;
+    [SerializeField] private InputAction dKey; //Input keys
+
     private Transform currentTarget;
 
     private IGB283Vector position;
     private float angleZDeg;
 
-    private Vector3[] originalVertices;
+    private Vector3[] originalVertices; //Original mesh vertices
+
 
     void Start()
     {
@@ -115,6 +120,40 @@ public class HornetSpinMove : MonoBehaviour
         //Update vertices
         mesh.vertices = vertices;
         mesh.RecalculateBounds();
+    }
+
+    //Increase hornet move speed
+    private void increaseSpeed(InputAction.CallbackContext context)
+    {
+        moveSpeed += 1f;
+    }
+
+    //Decrease hornet move speed
+    private void decreaseSpeed(InputAction.CallbackContext context)
+    {
+        moveSpeed = Mathf.Max(0f, moveSpeed - 1f);
+    }
+
+    private void OnEnable()
+    {
+        // Enable the inputs
+        aKey.Enable();
+        dKey.Enable();
+
+        // Trigger the hornet speed
+        aKey.performed += decreaseSpeed;
+        dKey.performed += increaseSpeed;
+    }
+
+    private void OnDisable()
+    {
+        // Disable the inputs
+        aKey.Disable();
+        dKey.Disable();
+
+        //Stop triggering hornet speed
+        aKey.performed -= decreaseSpeed;
+        dKey.performed -= increaseSpeed;
     }
 
     //cooked helper functions(will move them into vector when get chance)

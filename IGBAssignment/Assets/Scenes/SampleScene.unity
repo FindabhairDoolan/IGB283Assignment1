@@ -843,6 +843,40 @@ MonoBehaviour:
   KnobB: {fileID: 933933948}
   moveSpeed: 3
   rotateSpeed: 180
+  aKey:
+    m_Name: A Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6017f63c-e6c0-496b-8083-ec3e24b9a65a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: ab546f54-fb6b-4842-9c06-c54ed1a7aa2d
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: A Key
+      m_Flags: 0
+    m_Flags: 0
+  dKey:
+    m_Name: D Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c57e06f5-613a-4d21-a7c7-c0d4bcb74135
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: b0f9ab98-af59-441f-9cb7-376f6af1ac80
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: D Key
+      m_Flags: 0
+    m_Flags: 0
 --- !u!68 &1759477815
 EdgeCollider2D:
   m_ObjectHideFlags: 0
