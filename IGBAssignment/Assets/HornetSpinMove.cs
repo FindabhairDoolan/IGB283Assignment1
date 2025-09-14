@@ -14,11 +14,16 @@ public class HornetSpinMove : MonoBehaviour
     private IGB283Vector position;
     private float angleZDeg;
 
+    private Vector3[] originalVertices;
+
     void Start()
     {
         position = new IGB283Vector(transform.position);
         angleZDeg = transform.eulerAngles.z;
         currentTarget = KnobA;
+
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        originalVertices = mesh.vertices;
     }
 
     void Update()
@@ -48,9 +53,12 @@ public class HornetSpinMove : MonoBehaviour
 
         transform.position = position.ToUnityVector();
         transform.rotation = Quaternion.Euler(0f, 0f, angleZDeg);
+
+        changeColour();
+        changeScale();
     }
 
-    //chance target
+    //change target
     private void FlipTarget()
     {
         currentTarget = (currentTarget == KnobA) ? KnobB : KnobA;
@@ -61,6 +69,52 @@ public class HornetSpinMove : MonoBehaviour
     {
         if (other.transform == KnobA || other.transform == KnobB)
             FlipTarget();
+    }
+
+    //Change hornet colour depending on x position
+    private void changeColour()
+    {
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Color[] colors = new Color[mesh.vertexCount]; //List to put new vertex colours in
+
+        float minX = KnobA.position.x;
+        float maxX = KnobB.position.x; //Boundary x positions
+
+        for (int i = 0; i < colors.Length; i++) //For all vertices
+        {
+            float t = Mathf.InverseLerp(minX, maxX, transform.position.x);
+            colors[i] = Color.Lerp(Color.red, Color.black, t); //Set colour dependent on the position between boundaries
+        }
+
+        mesh.colors = colors; //Update vertex colours
+    }
+
+    //Change hornet size depending on x position
+    private void changeScale()
+    {
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] vertices = new Vector3[originalVertices.Length];//List to put new vertices
+
+        //Determine scaling based on x position
+        float minX = KnobA.position.x;
+        float maxX = KnobB.position.x;
+        float t = Mathf.InverseLerp(minX, maxX, position.x);
+        float scaleFactor = Mathf.Lerp(0.5f, 1.5f, t);
+
+        //Create scaling matrix with scaling factor
+        IGB283Transform scaleMatrix = IGB283Transform.Scaling(scaleFactor, scaleFactor, 1f);
+
+        //For all vertices
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            IGB283Vector v = new IGB283Vector(originalVertices[i]); //start from original
+            v = scaleMatrix.Apply(v); //Apply scaling
+            vertices[i] = v.ToUnityVector();
+        }
+
+        //Update vertices
+        mesh.vertices = vertices;
+        mesh.RecalculateBounds();
     }
 
     //cooked helper functions(will move them into vector when get chance)
