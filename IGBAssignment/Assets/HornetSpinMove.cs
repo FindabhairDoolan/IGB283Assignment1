@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider2D))]
 public class HornetSpinMove : MonoBehaviour
 {
-    public Transform KnobA;
-    public Transform KnobB;
+    public Transform PointA;
+    public Transform PointB;
 
     [SerializeField] public float moveSpeed = 3f;
     [SerializeField] public float rotateSpeed = 180f;
@@ -26,27 +26,29 @@ public class HornetSpinMove : MonoBehaviour
     private IGB283Vector position;
     private float angleZDeg;
 
-    private Vector3[] originalVertices; //Original mesh vertices
+    //Original mesh vertices
+    private Vector3[] originalVertices; 
 
-    private bool showingPseudoCrossProduct = false; // toggle state
-
+    //toggle state
+    private bool showingPseudoCrossProduct = false; 
 
     void Start()
     {
         position = new IGB283Vector(transform.position);
         angleZDeg = transform.eulerAngles.z;
-        currentTarget = KnobA;
+        currentTarget = PointA;
 
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         originalVertices = mesh.vertices;
+
     }
 
     void Update()
     {
-        //knob positions
-        IGB283Vector pointA = new IGB283Vector(KnobA.position);
-        IGB283Vector pointB = new IGB283Vector(KnobB.position);
-        IGB283Vector target = (currentTarget == KnobA) ? pointA : pointB;
+        //point positions
+        IGB283Vector pointA = new IGB283Vector(PointA.position);
+        IGB283Vector pointB = new IGB283Vector(PointB.position);
+        IGB283Vector target = (currentTarget == PointA) ? pointA : pointB;
 
         //spin
         angleZDeg += rotateSpeed * Time.deltaTime;
@@ -54,47 +56,57 @@ public class HornetSpinMove : MonoBehaviour
 
         //course correct based on movement
         IGB283Vector toTarget = target - position;
-        float distSqr = SqrMagnitude(toTarget);
+        float distSqr = IGB283Vector.SqrMagnitude(toTarget);
 
         if (distSqr > 1e-8f)
         {
-            IGB283Vector dir = Normalize(toTarget);
-            IGB283Vector step = Scale(dir, moveSpeed * Time.deltaTime);
-
-            //transformation
+            IGB283Vector dir = IGB283Vector.Normalize(toTarget);
+            IGB283Vector step = IGB283Vector.Scale(dir, moveSpeed * Time.deltaTime);
             IGB283Transform T = IGB283Transform.Translation(step.x, step.y, step.z);
             position = T.Apply(position);
         }
 
-        transform.position = position.ToUnityVector();
-        transform.rotation = Quaternion.Euler(0f, 0f, angleZDeg);
+        //rotate scale and move
+        changeTransformScale();
 
-        if (showingPseudoCrossProduct) //Only show colour if not showing the psuedo-cross product
+        if (showingPseudoCrossProduct)
             applyPseudoCrossProduct();
         else
             changeColour();
 
-        changeScale();
-
-        //Spawn queued knife at correct position after hornet moved
+        //make knives
         if (queueKnifeSpawn)
         {
-            Instantiate(knife, knifeSpawnPoint.position, knifeSpawnPoint.rotation); //Spawn knife at mesh origin
+            //First line roates the knife spawner in the same way as the hornetmesh
+            Quaternion rotation = Quaternion.Euler(0f, 0f, angleZDeg);
+            //Hornet mesh is the spawnPosition, and the knife is spawned there
+            Vector3 spawnPosition = position.ToUnityVector(); 
+            Instantiate(knife, spawnPosition, rotation);
             queueKnifeSpawn = false;
+        }
+
+        //a distance based flip in case the weird mesh makes flip not work
+        if (IGB283Vector.SqrMagnitude(toTarget) <= 0.01f)
+        {
+            FlipTarget();
         }
     }
 
     //change target
     private void FlipTarget()
     {
-        currentTarget = (currentTarget == KnobA) ? KnobB : KnobA;
+        currentTarget = (currentTarget == PointA) ? PointB : PointA;
     }
 
-    //bounce of knock
+    //bounce off point
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform == KnobA || other.transform == KnobB)
+        // Only flip when we hit the CURRENT target, ignore the other point
+        if (other.transform == currentTarget)
+        {
             FlipTarget();
+        }
+
     }
 
     //Change hornet colour depending on x position
@@ -106,8 +118,8 @@ public class HornetSpinMove : MonoBehaviour
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Color[] colours = new Color[mesh.vertexCount]; //List to put new vertex colours in
 
-        float minX = KnobA.position.x;
-        float maxX = KnobB.position.x; //Boundary x positions
+        float minX = PointA.position.x;
+        float maxX = PointB.position.x; //Boundary x positions
 
         for (int i = 0; i < colours.Length; i++) //For all vertices
         {
@@ -116,34 +128,6 @@ public class HornetSpinMove : MonoBehaviour
         }
 
         mesh.colors = colours; //Update vertex colours
-    }
-
-    //Change hornet size depending on x position
-    private void changeScale()
-    {
-        Mesh mesh = GetComponent<MeshFilter>().mesh;
-        Vector3[] vertices = new Vector3[originalVertices.Length];//List to put new vertices
-
-        //Determine scaling based on x position
-        float minX = KnobA.position.x;
-        float maxX = KnobB.position.x;
-        float t = Mathf.InverseLerp(minX, maxX, position.x);
-        float scaleFactor = Mathf.Lerp(0.5f, 1.5f, t);
-
-        //Create scaling matrix with scaling factor
-        IGB283Transform scaleMatrix = IGB283Transform.Scaling(scaleFactor, scaleFactor, 1f);
-
-        //For all vertices
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            IGB283Vector v = new IGB283Vector(originalVertices[i]); //start from original
-            v = scaleMatrix.Apply(v); //Apply scaling
-            vertices[i] = v.ToUnityVector();
-        }
-
-        //Update vertices
-        mesh.vertices = vertices;
-        mesh.RecalculateBounds();
     }
 
     private void OnEnable()
@@ -242,16 +226,55 @@ public class HornetSpinMove : MonoBehaviour
         showingPseudoCrossProduct = !showingPseudoCrossProduct;
     }
 
-    //cooked helper functions(will move them into vector when get chance)
-    private static float SqrMagnitude(IGB283Vector v) => v.x * v.x + v.y * v.y + v.z * v.z;
-
-    private static IGB283Vector Normalize(IGB283Vector v)
+    //One function to change Hornet's size based on x position while also moving Hornet and rotating her
+    private void changeTransformScale()
     {
-        float mag = Mathf.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-        if (mag < 1e-8f) return new IGB283Vector(0f, 0f, 0f);
-        return new IGB283Vector(v.x / mag, v.y / mag, v.z / mag);
-    }
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] verts = new Vector3[originalVertices.Length];
 
-    private static IGB283Vector Scale(IGB283Vector v, float s) =>
-        new IGB283Vector(v.x * s, v.y * s, v.z * s);
+        //calculate the pivot
+        Vector3 pivot = Vector3.zero;
+        for (int i = 0; i < originalVertices.Length; i++)
+            pivot += originalVertices[i];
+        pivot /= Mathf.Max(1, originalVertices.Length);
+
+        //Determine scaling based on x position
+        float minX = PointA.position.x;
+        float maxX = PointB.position.x;
+        float t = Mathf.InverseLerp(minX, maxX, position.x);
+        float scale = Mathf.Lerp(0.5f, 1.5f, t);
+
+        //2D rotation about Z applied in space around pivot
+        float rad = angleZDeg * Mathf.Deg2Rad;
+        float s = Mathf.Sin(rad);
+        float c = Mathf.Cos(rad);
+
+        //Calculate offset between desired position and hornet's original position.
+        Vector3 localOffset = position.ToUnityVector() - transform.position;
+
+        for (int i = 0; i < verts.Length; i++)
+        {
+            Vector3 v0 = originalVertices[i];
+
+            //translate to pivot
+            float px = v0.x - pivot.x;
+            float py = v0.y - pivot.y;
+            float pz = v0.z - pivot.z;
+
+            //uniform scale in XY
+            px *= scale;
+            py *= scale;
+
+            //rotate in XY
+            float rx = px * c - py * s;
+            float ry = px * s + py * c;
+            float rz = pz;
+
+            //translate back from pivot, apply translation offset
+            verts[i] = new Vector3(rx + pivot.x, ry + pivot.y, rz + pivot.z) + localOffset;
+        }
+        //Update vertices with scaling change, translation change, and rotation change
+        mesh.vertices = verts;
+        mesh.RecalculateBounds();
+    }
 }

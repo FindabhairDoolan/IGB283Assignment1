@@ -51,7 +51,8 @@ public class Triangle : MonoBehaviour
             new Vector3(0.5f, 1.0f, 0)
         };
 
-        Vector3[] vertCopy = mesh.vertices; //Get copy of mesh
+        //get copy of mesh
+        Vector3[] vertCopy = mesh.vertices; 
 
         //Get bounds
         float minX = float.MaxValue, maxX = float.MinValue;

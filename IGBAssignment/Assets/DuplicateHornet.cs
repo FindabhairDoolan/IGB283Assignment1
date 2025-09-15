@@ -22,22 +22,22 @@ public class DuplicateHornet : MonoBehaviour
         );
         clone.name = "HornetClone";
 
-        //clones knobs
-        Transform origA = original.KnobA;
-        Transform origB = original.KnobB;
+        //clones points
+        Transform origA = original.PointA;
+        Transform origB = original.PointB;
 
-        GameObject knobC = Instantiate(origA.gameObject,
+        GameObject pointC = Instantiate(origA.gameObject,
             origA.position + cloneHornetOffset, origA.rotation, this.transform);
-        knobC.name = "KnobC";
+        pointC.name = "PointC";
 
-        GameObject knobD = Instantiate(origB.gameObject,
+        GameObject pointD = Instantiate(origB.gameObject,
             origB.position + cloneHornetOffset, origB.rotation, this.transform);
-        knobD.name = "KnobD";
+        pointD.name = "PointD";
 
         //changes targets of cloned hornet
-        HornetSpinMove hornet2 = clone.GetComponent<HornetSpinMove>();    
-        hornet2.KnobA = knobC.transform;
-        hornet2.KnobB = knobD.transform;
+        HornetSpinMove hornet2 = clone.GetComponent<HornetSpinMove>();
+        hornet2.PointA = pointC.transform;
+        hornet2.PointB = pointD.transform;
         hornet2.moveSpeed = cloneSlideSpeed;
         hornet2.rotateSpeed = cloneRotationSpeed;
 
