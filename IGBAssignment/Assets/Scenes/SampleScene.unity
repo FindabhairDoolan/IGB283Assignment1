@@ -779,6 +779,37 @@ MonoBehaviour:
   cloneHornetOffset: {x: 6, y: 0, z: 0}
   cloneSlideSpeed: 2
   cloneRotationSpeed: 120
+--- !u!1 &1564502103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1564502104}
+  m_Layer: 0
+  m_Name: KnifeSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1564502104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564502103}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1759477812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759477811
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +842,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1564502104}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1759477813
@@ -860,6 +892,23 @@ MonoBehaviour:
       m_Action: P Key
       m_Flags: 0
     m_Flags: 0
+  spaceKey:
+    m_Name: Space Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 084e6658-7549-4167-bd82-8b3e46aa554c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 878a0e40-383a-4499-a855-20c4a0e8ec80
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Space Key
+      m_Flags: 0
+    m_Flags: 0
   aKey:
     m_Name: A Key
     m_Type: 0
@@ -894,6 +943,8 @@ MonoBehaviour:
       m_Action: D Key
       m_Flags: 0
     m_Flags: 0
+  knife: {fileID: 1000652846365486668, guid: 51d32c9d385ed5d4d91342d2ef9ff854, type: 3}
+  knifeSpawnPoint: {fileID: 1564502104}
 --- !u!68 &1759477815
 EdgeCollider2D:
   m_ObjectHideFlags: 0

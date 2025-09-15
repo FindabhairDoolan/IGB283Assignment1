@@ -10,9 +10,16 @@ public class HornetSpinMove : MonoBehaviour
     [SerializeField] public float moveSpeed = 3f;
     [SerializeField] public float rotateSpeed = 180f;
 
+    //Input keys
     [SerializeField] private InputAction pKey;
+    [SerializeField] private InputAction spaceKey;
     [SerializeField] private InputAction aKey;
-    [SerializeField] private InputAction dKey; //Input keys
+    [SerializeField] private InputAction dKey;
+
+    //Knife settings
+    public GameObject knife;
+    public Transform knifeSpawnPoint;
+    private bool queueKnifeSpawn = false;
 
     private Transform currentTarget;
 
@@ -54,7 +61,7 @@ public class HornetSpinMove : MonoBehaviour
             IGB283Vector dir = Normalize(toTarget);
             IGB283Vector step = Scale(dir, moveSpeed * Time.deltaTime);
 
-            //transforma
+            //transformation
             IGB283Transform T = IGB283Transform.Translation(step.x, step.y, step.z);
             position = T.Apply(position);
         }
@@ -62,12 +69,19 @@ public class HornetSpinMove : MonoBehaviour
         transform.position = position.ToUnityVector();
         transform.rotation = Quaternion.Euler(0f, 0f, angleZDeg);
 
-        if (showingPseudoCrossProduct)
+        if (showingPseudoCrossProduct) //Only show colour if not showing the psuedo-cross product
             applyPseudoCrossProduct();
         else
             changeColour();
 
         changeScale();
+
+        //Spawn queued knife at correct position after hornet moved
+        if (queueKnifeSpawn)
+        {
+            Instantiate(knife, knifeSpawnPoint.position, knifeSpawnPoint.rotation); //Spawn knife at mesh origin
+            queueKnifeSpawn = false;
+        }
     }
 
     //change target
@@ -132,6 +146,42 @@ public class HornetSpinMove : MonoBehaviour
         mesh.RecalculateBounds();
     }
 
+    private void OnEnable()
+    {
+        // Enable the inputs
+        aKey.Enable();
+        dKey.Enable();
+        pKey.Enable();
+        spaceKey.Enable();
+
+        // Trigger the events
+        aKey.performed += decreaseSpeed;
+        dKey.performed += increaseSpeed;
+        pKey.performed += showPseudoCrossProduct;
+        spaceKey.performed += throwKnife;
+    }
+
+    private void OnDisable()
+    {
+        // Disable the inputs
+        aKey.Disable();
+        dKey.Disable();
+        pKey.Disable();
+        spaceKey.Disable();
+
+        //Stop triggering the events
+        aKey.performed -= decreaseSpeed;
+        dKey.performed -= increaseSpeed;
+        pKey.performed -= showPseudoCrossProduct;
+        spaceKey.performed -= throwKnife;
+    }
+
+    //Queue up a knife to be thrown (done in update function to avoid drifting spawn)
+    private void throwKnife(InputAction.CallbackContext context)
+    {
+        queueKnifeSpawn = true;
+    }
+
     //Increase hornet move speed
     private void increaseSpeed(InputAction.CallbackContext context)
     {
@@ -142,32 +192,6 @@ public class HornetSpinMove : MonoBehaviour
     private void decreaseSpeed(InputAction.CallbackContext context)
     {
         moveSpeed = Mathf.Max(0f, moveSpeed - 1f);
-    }
-
-    private void OnEnable()
-    {
-        // Enable the inputs
-        aKey.Enable();
-        dKey.Enable();
-        pKey.Enable();
-
-        // Trigger the hornet speed
-        aKey.performed += decreaseSpeed;
-        dKey.performed += increaseSpeed;
-        pKey.performed += showPseudoCrossProduct;
-    }
-
-    private void OnDisable()
-    {
-        // Disable the inputs
-        aKey.Disable();
-        dKey.Disable();
-        pKey.Disable();
-
-        //Stop triggering hornet speed
-        aKey.performed -= decreaseSpeed;
-        dKey.performed -= increaseSpeed;
-        pKey.performed -= showPseudoCrossProduct;
     }
 
     private void applyPseudoCrossProduct()
@@ -212,9 +236,6 @@ public class HornetSpinMove : MonoBehaviour
 
         mesh.colors = colours; //Update colours
     }
-
-
-
 
     private void showPseudoCrossProduct(InputAction.CallbackContext context)
     {

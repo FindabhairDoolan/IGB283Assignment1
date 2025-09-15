@@ -454,6 +454,7 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\Android\AndroidSupport.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Devices\Commands\SetSamplingFrequencyCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\PropertyDrawers\InputActionAssetSearchProvider.cs" />
+    <Compile Include="Assets\ThrowingKnives.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Actions\Composites\Vector3Composite.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\Steam\SteamHandle.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\XR\Controls\PoseControl.cs" />
