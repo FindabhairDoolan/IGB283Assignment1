@@ -89,10 +89,10 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\ControlPicker\IInputControlPickerLayout.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\InputSystemPluginControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\UITKAssetEditor\ExpressionUtils.cs" />
+    <Compile Include="Assets\Point.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\AssetEditor\InputActionPropertiesView.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Controls\CommonUsages.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\Settings\InputSettingsBuildProvider.cs" />
-    <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Controls\InputControlLayoutChange.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Devices\Commands\SetIMECursorPositionCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\UITKAssetEditor\InputActionsEditorState.cs" />
@@ -312,7 +312,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\UITKAssetEditor\Commands\Commands.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\Linux\SDLDeviceBuilder.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\XR\Haptics\SendBufferedHapticsCommand.cs" />
-    <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Devices\ICustomDeviceReset.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Devices\Commands\WarpMousePositionCommand.cs" />
     <Compile Include="Assets\HornetSpinMove.cs" />
@@ -454,6 +453,7 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\Android\AndroidSupport.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Devices\Commands\SetSamplingFrequencyCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\PropertyDrawers\InputActionAssetSearchProvider.cs" />
+    <Compile Include="Assets\ThrowingKnives.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Actions\Composites\Vector3Composite.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\Steam\SteamHandle.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\XR\Controls\PoseControl.cs" />

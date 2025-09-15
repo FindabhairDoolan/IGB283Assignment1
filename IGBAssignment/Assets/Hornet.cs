@@ -51,6 +51,32 @@ public class Triangle : MonoBehaviour
             new Vector3(0.5f, 1.0f, 0)
         };
 
+        //get copy of mesh
+        Vector3[] vertCopy = mesh.vertices; 
+
+        //Get bounds
+        float minX = float.MaxValue, maxX = float.MinValue;
+        float minY = float.MaxValue, maxY = float.MinValue;
+
+        foreach (var v in vertCopy)
+        {
+            if (v.x < minX) minX = v.x;
+            if (v.x > maxX) maxX = v.x;
+            if (v.y < minY) minY = v.y;
+            if (v.y > maxY) maxY = v.y;
+        }
+
+        //Get center
+        Vector3 center = new Vector3((minX + maxX) / 2f, (minY + maxY) / 2f, 0f);
+
+        //Recenter vertices
+        for (int i = 0; i < vertCopy.Length; i++)
+            vertCopy[i] -= center;
+
+        //Update mesh
+        mesh.vertices = vertCopy;
+        mesh.RecalculateBounds();
+
 
 
         // Colour Vetices

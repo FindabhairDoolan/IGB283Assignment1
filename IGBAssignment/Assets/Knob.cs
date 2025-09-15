@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Knob : MonoBehaviour
+public class Point : MonoBehaviour
 {
     [SerializeField] private InputAction mouseClick;
     private SpriteRenderer spriteRenderer;
@@ -15,7 +15,7 @@ public class Knob : MonoBehaviour
 
     void Update()
     {
-        //checks specifically this frame to stop confusion with other knobs
+        //checks specifically this frame to stop confusion with other points
         if (Mouse.current.leftButton.wasPressedThisFrame)
             MouseClickAction(default);
 
@@ -26,14 +26,14 @@ public class Knob : MonoBehaviour
     }
 
     private void OnEnable()
-    {     
+    {
         mouseClick.performed += MouseClickAction;
         mouseClick.canceled += MouseReleaseAction;
         mouseClick.Enable();
     }
 
     private void OnDisable()
-    {   
+    {
         mouseClick.Disable();
         mouseClick.performed -= MouseClickAction;
         mouseClick.canceled -= MouseReleaseAction;
@@ -53,7 +53,7 @@ public class Knob : MonoBehaviour
     {
         Vector3 mouseInWorld = GetMousePosition();
         Collider2D hitCollider = Physics2D.OverlapPoint(mouseInWorld);
-        // Only start moving if this specific knob was clicked
+        // Only start moving if this specific point was clicked
         if (hitCollider != null && hitCollider.gameObject == gameObject)
         {
             IsMoving = true;
@@ -67,15 +67,15 @@ public class Knob : MonoBehaviour
 
     private void Move()
     {
-        // Move the knob to the mouse
+        // Move the point to the mouse
         if (IsMoving)
         {
             Vector3 mousePosition = GetMousePosition();
             transform.position = new Vector3(
                     transform.position.x,  //current X
-                    mousePosition.y,            //mouse Y
+                    mousePosition.y,       //mouse Y
                     transform.position.z   //current Z
                 );
-        }          
+        }
     }
 }

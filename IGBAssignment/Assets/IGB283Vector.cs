@@ -57,5 +57,21 @@ public class IGB283Vector
             a.x * b.y - a.y * b.x
         );
     }
+    
+    //Square Magnitude Helper for Transformation Script
+    public static float SqrMagnitude(IGB283Vector v) => v.x * v.x + v.y * v.y + v.z * v.z;
+
+    //Normalization
+    public static IGB283Vector Normalize(IGB283Vector v)
+    {
+        float mag = Mathf.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        if (mag < 1e-8f) return new IGB283Vector(0f, 0f, 0f);
+        return new IGB283Vector(v.x / mag, v.y / mag, v.z / mag);
+    }
+
+    //Vector Scaler
+    public static IGB283Vector Scale(IGB283Vector v, float s) =>
+        new IGB283Vector(v.x * s, v.y * s, v.z * s);
+
 
 }
