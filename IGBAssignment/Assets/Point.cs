@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Knob : MonoBehaviour
+public class Point : MonoBehaviour
 {
     [SerializeField] private InputAction mouseClick;
     private SpriteRenderer spriteRenderer;

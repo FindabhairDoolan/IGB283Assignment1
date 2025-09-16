@@ -123,7 +123,7 @@ public class HornetSpinMove : MonoBehaviour
 
         for (int i = 0; i < colours.Length; i++) //For all vertices
         {
-            float t = Mathf.InverseLerp(minX, maxX, transform.position.x);
+            float t = Mathf.InverseLerp(minX, maxX, position.x);
             colours[i] = Color.Lerp(black, red, t); //Set colour dependent on the position between boundaries
         }
 

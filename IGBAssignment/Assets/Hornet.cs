@@ -79,7 +79,7 @@ public class Triangle : MonoBehaviour
 
 
 
-        // Colour Vetices
+        // Default vertices colour
         Color black = new Color(0.0f,0.0f,0.0f,1f);
         Color red = new Color(0.5f, 0.0f, 0.0f, 1f);
         Color white = new Color(1f, 1f, 1f, 1f);
@@ -151,7 +151,6 @@ public class Triangle : MonoBehaviour
             23,19,22,
             20,19,23,
             20,23,24,
-            24,19,23,
             25,20,24,
             23,22,26,
             24,23,27,

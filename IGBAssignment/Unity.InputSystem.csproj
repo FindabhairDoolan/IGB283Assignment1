@@ -69,7 +69,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Controls\QuaternionControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\HID\HIDParser.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\Internal\InputStateWindow.cs" />
-    <Compile Include="Assets\Knob.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Editor\UITKAssetEditor\Views\Selectors.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Controls\Processors\EditorWindowSpaceProcessor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\InputSystem\Plugins\DualShock\DualShockGamepadHID.cs" />

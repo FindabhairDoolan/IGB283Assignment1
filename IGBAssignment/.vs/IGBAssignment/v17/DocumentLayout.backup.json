@@ -1,28 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\HornetSpinMove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\HornetSpinMove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\Hornet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Hornet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\DuplicateHornet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\DuplicateHornet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Transform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\IGB283Transform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Vector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\IGB283Vector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -30,76 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DuplicateHornet.cs",
-              "DocumentMoniker": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\DuplicateHornet.cs",
-              "RelativeDocumentMoniker": "Assets\\DuplicateHornet.cs",
-              "ToolTip": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\DuplicateHornet.cs",
-              "RelativeToolTip": "Assets\\DuplicateHornet.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T09:54:29.826Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Hornet.cs",
-              "DocumentMoniker": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\Hornet.cs",
-              "RelativeDocumentMoniker": "Assets\\Hornet.cs",
-              "ToolTip": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\Hornet.cs",
-              "RelativeToolTip": "Assets\\Hornet.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAAAFEAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T00:45:08.256Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HornetSpinMove.cs",
-              "DocumentMoniker": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\HornetSpinMove.cs",
-              "RelativeDocumentMoniker": "Assets\\HornetSpinMove.cs",
-              "ToolTip": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\HornetSpinMove.cs",
-              "RelativeToolTip": "Assets\\HornetSpinMove.cs",
-              "ViewState": "AgIAALkAAAAAAAAAAAAAAMwAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T00:29:54.112Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IGB283Transform.cs",
-              "DocumentMoniker": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Transform.cs",
-              "RelativeDocumentMoniker": "Assets\\IGB283Transform.cs",
-              "ToolTip": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Transform.cs",
-              "RelativeToolTip": "Assets\\IGB283Transform.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAIwFIAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T07:16:37.027Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IGB283Vector.cs",
-              "DocumentMoniker": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Vector.cs",
-              "RelativeDocumentMoniker": "Assets\\IGB283Vector.cs",
-              "ToolTip": "D:\\Semester 4\\IGB283\\IGB283Assignment1\\IGBAssignment\\Assets\\IGB283Vector.cs",
-              "RelativeToolTip": "Assets\\IGB283Vector.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T00:33:36.315Z",
-              "EditorCaption": ""
             }
           ]
         }
